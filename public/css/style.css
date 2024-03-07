@@ -224,3 +224,9 @@ footer p {
 .dashboard-events-container  form{
 display: inline-block;
 }
+
+/* Edit Page */
+.img-preview {
+    width: 300px;
+    margin-top: 20px;
+}
