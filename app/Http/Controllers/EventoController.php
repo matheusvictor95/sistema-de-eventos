@@ -56,4 +56,11 @@ class EventoController extends Controller
         $donoevento = User::where('id', $evento->user_id)->first()->toArray();
         return view('eventos.show', ['evento'=> $evento, 'donoevento' => $donoevento]);
     }
+
+    public function dashboard(){
+        $user = auth()->user();
+        $eventos = $user->events;
+
+        return view ('eventos.dashboard', ['eventos' => $eventos]);
+    }
 }

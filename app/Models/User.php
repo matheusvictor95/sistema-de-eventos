@@ -18,11 +18,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
+
     protected $fillable = [
         'name',
         'email',
@@ -48,6 +44,6 @@ class User extends Authenticatable
     ];
 
     public function events(){
-        return $this->hasMany('Appp\Models\Evento');
+        return $this->hasMany('App\Models\evento');
     }
 }
