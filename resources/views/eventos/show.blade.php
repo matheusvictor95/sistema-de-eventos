@@ -10,7 +10,7 @@
                 <h1>{{ $evento->titulo }}</h1>
                 <p class="event-city"><ion-icon name="pin"></ion-icon>{{ $evento->cidade }}</p>
                 <p class="events-participants"><ion-icon name="contacts"></ion-icon>X participantes</p>
-                <p class="events-owner"><ion-icon name="star-outline"></ion-icon>Dono do Evento</p>
+                <p class="events-owner"><ion-icon name="star-outline"></ion-icon>{{ $donoevento['name'] }}</p>
                 <a href="" class="btn btn-primary" id="event-submit">Confirmar Presença</a>
                 @if(isset($evento->items))
                 <h3>O evento conta com:</h3>
