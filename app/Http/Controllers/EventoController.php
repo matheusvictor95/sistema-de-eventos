@@ -52,7 +52,11 @@ class EventoController extends Controller
     }
 
     public function edit($id){
+        $user = auth()->user();
         $evento = Evento::findOrFail($id);
+        if($user->id != $evento->user_id){
+            return redirect()->route('eventos.dashboard');
+        }
         return view('eventos.edit', ['evento' => $evento]);
     }
 
@@ -74,15 +78,26 @@ class EventoController extends Controller
 
     public function show($id){
         $evento = Evento::findOrFail($id);
+        $user = auth()->user();
+        $hasUserJoined = false;
+        if($user){
+            $userEvents = $user->eventsAsParticipant->toArray();
+            foreach ($userEvents as $userEvent) {
+                if($userEvent['id'] == $id){
+                    $hasUserJoined = true;
+                }
+            }
+        }
         $donoevento = User::where('id', $evento->user_id)->first()->toArray();
-        return view('eventos.show', ['evento'=> $evento, 'donoevento' => $donoevento]);
+        return view('eventos.show', ['evento'=> $evento, 'donoevento' => $donoevento, 'hasUserJoined' => $hasUserJoined ]);
     }
 
     public function dashboard(){
         $user = auth()->user();
         $eventos = $user->events;
-
-        return view ('eventos.dashboard', ['eventos' => $eventos]);
+        $eventsAsParticipant = $user->eventsAsParticipant;
+        
+        return view ('eventos.dashboard', ['eventos' => $eventos, 'eventsAsParticipant' => $eventsAsParticipant]);
     }
 
     public function destroy($id){
@@ -94,5 +109,12 @@ class EventoController extends Controller
         $user->eventsAsParticipant()->attach($id);
         $evento = Evento::findOrFail($id);
         return redirect()->route('eventos.dashboard')->with('msg','sua inscrição está confirmada no evento');
+    }
+
+    public function leaveEvent($id){
+        $user = auth()->user();
+        $user->eventsAsParticipant()->detach($id);
+        $evento = Evento::findOrFail($id);
+        return redirect()->route('eventos.dashboard')->with('msg','sua presença não está mais confirmada neste evento'. $evento->titulo);
     }
 }
