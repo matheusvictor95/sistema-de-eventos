@@ -9,6 +9,8 @@ class Evento extends Model
 {
     use HasFactory;
     protected $table = 'events';
+
+    protected $fillable = ['titulo','descricao','cidade','privado'];
     protected $casts = [
         'items' => 'array'
     ];
@@ -18,5 +20,8 @@ class Evento extends Model
 
     public function user(){
         return $this->belongsTo('App\Models\User');
+    }
+    public function users(){
+        return $this->belongsToMany(User::class,'event_user','event_id','user_id');
     }
 }

@@ -19,6 +19,7 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
 
 
+    protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
@@ -44,6 +45,10 @@ class User extends Authenticatable
     ];
 
     public function events(){
-        return $this->hasMany('App\Models\evento');
+        return $this->hasMany('App\Models\Evento');
+    }
+
+    public function eventsAsParticipant(){
+        return $this->belongsToMany(Evento::class, 'event_user', 'user_id', 'event_id');
     }
 }

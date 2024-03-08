@@ -11,7 +11,7 @@ Route::get('/eventos/edit/{id}', [EventoController::class, 'edit'])->middleware(
 Route::put('/eventos/update/{id}',[EventoController::class,'update'])->middleware('auth')->name('eventos.update');
 Route::post('/eventos/store', [EventoController::class, 'store'])->name('eventos.store');
 Route::delete('/eventos/{id}',[EventoController::class,'destroy'])->middleware('auth')->name('eventos.delete');
-
+Route::post('/eventos/join/{id}', [EventoController::class, 'joinEvent'])->middleware('auth')->name('eventos.join');
 
 
 

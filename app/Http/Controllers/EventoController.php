@@ -89,4 +89,10 @@ class EventoController extends Controller
         Evento::findOrFail($id)->delete();
         return redirect()->route('eventos.dashboard')->with('msg','Evento deletado!');
     }
+    public function joinEvent($id){
+        $user = auth()->user();
+        $user->eventsAsParticipant()->attach($id);
+        $evento = Evento::findOrFail($id);
+        return redirect()->route('eventos.dashboard')->with('msg','sua inscrição está confirmada no evento');
+    }
 }
